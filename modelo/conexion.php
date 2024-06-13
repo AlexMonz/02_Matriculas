@@ -1,7 +1,7 @@
 <?php
 // modelo/conexion.php
 
-$servername = "";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "registro_vehiculos";
