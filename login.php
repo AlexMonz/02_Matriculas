@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 20px;
         }
         .bg-light-yellow {
-            background-color: #fffde7;
+            background-color: #e7b806;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container full-height center-content">
         <div class="col-md-6 col-lg-4 bg-light-yellow">
-            <h2 class="header">Login y Registro</h2>
+            <h1 class="header">PARKING UAX</h1>
             <?php
             if (isset($_SESSION['error'])) {
                 echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
@@ -148,4 +148,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-S

@@ -68,11 +68,21 @@ if (isset($_GET['edit'])) {
             top: 20px;
             right: 20px;
         }
+        .user-info {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            font-size: 1.1em;
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="logout.php" class="btn btn-danger logout-btn">Cerrar Sesión</a>
+        <div class="user-info">
+            <?php echo "Usuario: " . $_SESSION['email']; ?>
+        </div>
         <h1 class="text-center p-3">REGISTRO VEHICULOS PARKING UAX</h1>
         <div class="row justify-content-center">
             <div class="col-md-4 bg-light-yellow">
