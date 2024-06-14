@@ -23,5 +23,9 @@ if (isset($_GET['id'])) {
 
     header("Location: ../index.php"); // Redirigir de vuelta a index.php
     exit();
+} else {
+    $_SESSION['error'] = "ID DE VEHÍCULO NO PROPORCIONADO";
+    header("Location: ../index.php");
+    exit();
 }
 ?>
