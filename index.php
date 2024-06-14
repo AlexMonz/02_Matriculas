@@ -1,34 +1,39 @@
 <?php
 include "modelo/conexion.php";
+session_start(); // Iniciar sesión para usar variables de sesión
+
+// Mostrar todos los errores de PHP para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$id = $marca = $modelo = $matricula = $color = "";
+$editing = false;
+
+// Manejar la solicitud de edición
+if (isset($_GET['edit'])) {
+    $id = $_GET['edit'];
+    $result = $conexion->query("SELECT * FROM vehiculos WHERE id=$id") or die($conexion->error);
+    if ($result->num_rows) {
+        $row = $result->fetch_array();
+        $marca = $row['marca'];
+        $modelo = $row['modelo'];
+        $matricula = $row['matricula'];
+        $color = $row['color'];
+        $editing = true;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link to Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/fc3e0c09ba.js" crossorigin="anonymous"></script>
     <title>Parking UAX</title>
-    <style>
-        .table thead {
-            background-color: #001f3f;
-            color: white;
-        }
-
-        .btn-primary {
-            background-color: #001f3f;
-            border-color: #001f3f;
-        }
-
-        .btn-primary:hover {
-            background-color: #001030;
-            border-color: #001030;
-        }
-    </style>
 </head>
 
 <body>
@@ -36,29 +41,38 @@ include "modelo/conexion.php";
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <form method="POST">
-                    <h3 class="text-center p-3">VEHICULO</h3>
+                <?php
+                if (isset($_SESSION['error'])) {
+                    echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+                    unset($_SESSION['error']); // Borrar el mensaje después de mostrarlo
+                }
+                if (isset($_SESSION['success'])) {
+                    echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+                    unset($_SESSION['success']); // Borrar el mensaje después de mostrarlo
+                }
+                ?>
+                <form class="" method="POST" action="<?= $editing ? 'controlador/modificar_vehiculo.php' : 'controlador/registro_vehiculo.php' ?>">
+                    <h3 class="text-center p-3"><?= $editing ? 'ACTUALIZAR' : 'REGISTRAR' ?> VEHICULO</h3>
+                    <input type="hidden" name="id" value="<?= $id ?>">
                     <div class="mb-3">
                         <label for="marca" class="form-label">Marca</label>
-                        <input type="text" class="form-control" name="marca">
+                        <input type="text" class="form-control" name="marca" value="<?= $marca ?>">
                     </div>
                     <div class="mb-3">
                         <label for="modelo" class="form-label">Modelo</label>
-                        <input type="text" class="form-control" name="modelo">
+                        <input type="text" class="form-control" name="modelo" value="<?= $modelo ?>">
                     </div>
                     <div class="mb-3">
                         <label for="matricula" class="form-label">Matricula</label>
-                        <input type="text" class="form-control" name="matricula">
+                        <input type="text" class="form-control" name="matricula" value="<?= $matricula ?>">
                     </div>
                     <div class="mb-3">
                         <label for="color" class="form-label">Color</label>
-                        <input type="color" class="form-control form-control-sm" name="color">
+                        <input type="color" class="form-control form-control-sm" name="color" value="<?= $color ?>">
                     </div>
-                    <button type="button" class="btn btn-outline-primary" name="btnregistrar" value="ok">Registrar</button>
-                    <?php
-                        include "modelo/conexion.php";
-                        include "controlador/registro_persona.php";
-                    ?>
+                    <button type="submit" class="btn btn-outline-primary" name="<?= $editing ? 'btn_actualizar' : 'registrar' ?>" value="ok">
+                        <?= $editing ? 'Actualizar' : 'Registrar' ?>
+                    </button>
                 </form>
             </div>
             <div class="col-md-8">
@@ -77,7 +91,7 @@ include "modelo/conexion.php";
                         <tbody>
                             <?php
                             $sql = $conexion->query("SELECT * FROM vehiculos");
-                            while($datos = $sql->fetch_object()) { ?>
+                            while ($datos = $sql->fetch_object()) { ?>
                                 <tr>
                                     <th scope="row"><?php echo $datos->id; ?></th>
                                     <td><?php echo $datos->marca; ?></td>
@@ -85,8 +99,8 @@ include "modelo/conexion.php";
                                     <td><?php echo $datos->matricula; ?></td>
                                     <td><?php echo $datos->color; ?></td>
                                     <td>
-                                        <a href="" class="btn btn-small btn-warning"><i class="fa-solid fa-user-pen"></i></a>
-                                        <a href="" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                        <a href="index.php?edit=<?php echo $datos->id; ?>" class="btn btn-small btn-warning"><i class="fa-solid fa-user-pen"></i></a>
+                                        <a href="controlador/eliminar_vehiculo.php?id=<?php echo $datos->id; ?>" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -96,7 +110,6 @@ include "modelo/conexion.php";
             </div>
         </div>
     </div>
-    <!-- Link to Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
