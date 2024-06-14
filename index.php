@@ -63,10 +63,16 @@ if (isset($_GET['edit'])) {
             display: inline-block;
             border: 1px solid #000;
         }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="logout.php" class="btn btn-danger logout-btn">Cerrar Sesión</a>
         <h1 class="text-center p-3">REGISTRO VEHICULOS PARKING UAX</h1>
         <div class="row justify-content-center">
             <div class="col-md-4 bg-light-yellow">
@@ -144,4 +150,3 @@ if (isset($_GET['edit'])) {
     </script>
 </body>
 </html>
-S
