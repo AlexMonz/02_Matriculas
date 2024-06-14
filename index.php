@@ -40,6 +40,23 @@ if (isset($_GET['edit'])) {
     <script src="https://kit.fontawesome.com/fc3e0c09ba.js" crossorigin="anonymous"></script>
     <title>Parking UAX</title>
     <style>
+        body {
+            background-color: #e7b806;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bg-light-yellow {
+            background-color: #fffde7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
         .color-box {
             width: 20px;
             height: 20px;
@@ -48,12 +65,11 @@ if (isset($_GET['edit'])) {
         }
     </style>
 </head>
-
 <body>
-    <h1 class="text-center p-3">REGISTRO VEHICULOS PARKING UAX</h1>
     <div class="container">
+        <h1 class="text-center p-3">REGISTRO VEHICULOS PARKING UAX</h1>
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-4 bg-light-yellow">
                 <?php
                 if (isset($_SESSION['error'])) {
                     echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
@@ -127,5 +143,4 @@ if (isset($_GET['edit'])) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 </body>
-
 </html>
