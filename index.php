@@ -13,7 +13,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $id = $marca = $modelo = $matricula = $color = "";
-$editing = false;
+$editing = false; // Asegúrate de que $editing está definido e inicializado
 
 // Manejar la solicitud de edición
 if (isset($_GET['edit'])) {
@@ -144,3 +144,4 @@ if (isset($_GET['edit'])) {
     </script>
 </body>
 </html>
+S
