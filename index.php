@@ -38,19 +38,6 @@ include "modelo/conexion.php";
             <div class="col-md-4">
                 <form method="POST">
                     <h3 class="text-center p-3">VEHICULO</h3>
-                    <?php
-                    if (!empty($errors)) {
-                        echo '<div class="alert alert-danger">';
-                        foreach ($errors as $error) {
-                            echo '<p>' . $error . '</p>';
-                        }
-                        echo '</div>';
-                    }
-
-                    if (!empty($success)) {
-                        echo '<div class="alert alert-success">' . $success . '</div>';
-                    }
-                    ?>
                     <div class="mb-3">
                         <label for="marca" class="form-label">Marca</label>
                         <input type="text" class="form-control" name="marca">
@@ -67,7 +54,11 @@ include "modelo/conexion.php";
                         <label for="color" class="form-label">Color</label>
                         <input type="color" class="form-control form-control-sm" name="color">
                     </div>
-                    <button type="submit" class="btn btn-outline-primary" name="btnregistrar" value="ok">Registrar</button>
+                    <button type="button" class="btn btn-outline-primary" name="btnregistrar" value="ok">Registrar</button>
+                    <?php
+                        include "modelo/conexion.php";
+                        include "controlador/registro_persona.php";
+                    ?>
                 </form>
             </div>
             <div class="col-md-8">
@@ -86,7 +77,7 @@ include "modelo/conexion.php";
                         <tbody>
                             <?php
                             $sql = $conexion->query("SELECT * FROM vehiculos");
-                            while ($datos = $sql->fetch_object()) { ?>
+                            while($datos = $sql->fetch_object()) { ?>
                                 <tr>
                                     <th scope="row"><?php echo $datos->id; ?></th>
                                     <td><?php echo $datos->marca; ?></td>
