@@ -1,6 +1,11 @@
 <?php
 include "modelo/conexion.php";
-session_start(); // Iniciar sesión para usar variables de sesión
+session_start();
+
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: login.php");
+    exit();
+}
 
 // Mostrar todos los errores de PHP para depuración
 ini_set('display_errors', 1);
@@ -34,6 +39,14 @@ if (isset($_GET['edit'])) {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/fc3e0c09ba.js" crossorigin="anonymous"></script>
     <title>Parking UAX</title>
+    <style>
+        .color-box {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border: 1px solid #000;
+        }
+    </style>
 </head>
 
 <body>
@@ -97,7 +110,7 @@ if (isset($_GET['edit'])) {
                                     <td><?php echo $datos->marca; ?></td>
                                     <td><?php echo $datos->modelo; ?></td>
                                     <td><?php echo $datos->matricula; ?></td>
-                                    <td><?php echo $datos->color; ?></td>
+                                    <td><div class="color-box" style="background-color: <?php echo $datos->color; ?>;"></div></td>
                                     <td>
                                         <a href="index.php?edit=<?php echo $datos->id; ?>" class="btn btn-small btn-warning"><i class="fa-solid fa-user-pen"></i></a>
                                         <a href="controlador/eliminar_vehiculo.php?id=<?php echo $datos->id; ?>" class="btn btn-small btn-danger"><i class="fa-solid fa-trash"></i></a>
